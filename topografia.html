@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Topografía y Oficina Técnica</title>
+<meta name="theme-color" content="#0f766e">
+<link rel="manifest" href="topografia-manifest.json">
+<link rel="icon" href="topografia-icon-192.png">
+<style>
+:root{--bg:#0b1220;--cd:#16213a;--in:#0b1220;--tx:#e6edf7;--mu:#9fb0c8;--bd:#2b3a58;--ac:#14b8a6;--rd:#ef4444;--gr:#10b981;--ye:#f59e0b;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,sans-serif}
+body{background:var(--bg);color:var(--tx);padding-bottom:80px}
+header{background:var(--cd);padding:14px;text-align:center;font-weight:700;border-bottom:3px solid var(--ac)}
+#ins{display:none;width:100%;border:0;padding:10px;background:var(--ye);color:#000;font-weight:700}
+.tabs{display:flex;overflow-x:auto;background:var(--cd);position:sticky;top:0;z-index:10}
+.tab{flex:1 0 auto;padding:12px 14px;background:none;border:0;border-bottom:3px solid transparent;color:var(--mu);font-weight:700;font-size:.85rem}
+.tab.on{color:var(--ac);border-bottom-color:var(--ac)}
+.pg{display:none;padding:12px;max-width:640px;margin:0 auto}.pg.on{display:block}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:10px;padding:14px;margin-bottom:12px}
+h2{font-size:1.1rem;margin-bottom:6px}h3{font-size:.95rem;color:var(--ac);margin:12px 0 4px}
+p,small{font-size:.85rem;line-height:1.45;color:var(--mu)}
+label{display:block;margin-top:9px;font-size:.82rem;font-weight:700;color:var(--mu)}
+input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid var(--bd);background:var(--in);color:var(--tx);margin:4px 0;font-size:1rem}
+.btn{width:100%;padding:12px;border:0;border-radius:8px;font-weight:700;font-size:1rem;background:#0f766e;color:#fff;margin-top:9px}
+.btn.g{background:#059669}.btn.y{background:var(--ye);color:#000}.btn.s{background:#53627f}.btn.r{background:#dc2626}
+.btn.sm{width:auto;padding:8px 12px;font-size:.85rem;margin:4px 4px 0 0}
+.btn.on{outline:3px solid var(--ac)}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.al{padding:10px;border-radius:8px;margin-top:8px;font-size:.88rem;border:1px solid}
+.al.r{background:#ef444426;border-color:var(--rd)}.al.v{background:#10b98126;border-color:var(--gr)}.al.a{background:#f59e0b26;border-color:var(--ye)}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;margin-top:8px;font-size:.82rem;min-width:420px}
+th,td{border:1px solid var(--bd);padding:6px;text-align:left}th{background:var(--in);color:var(--ac)}
+.ok{color:var(--gr);font-weight:700}.no{color:var(--rd);font-weight:700}
+.nv{position:relative;width:240px;height:240px;margin:14px auto;border-radius:50%;background:#0e1830;border:4px solid var(--bd);overflow:hidden}
+.nv:before,.nv:after{content:"";position:absolute;background:var(--bd)}.nv:before{left:50%;top:0;bottom:0;width:1px}.nv:after{top:50%;left:0;right:0;height:1px}
+.nc{position:absolute;width:70px;height:70px;border:2px dashed var(--mu);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+#bb{position:absolute;width:38px;height:38px;border-radius:50%;top:50%;left:50%;background:var(--ye);transform:translate(-50%,-50%)}
+.big{text-align:center;font-size:1.3rem;font-weight:800;margin:6px 0}
+canvas.sg{width:100%;height:130px;background:#fff;border-radius:8px;touch-action:none;display:block;margin-top:6px}
+#pv{width:100%;height:380px;background:#000;border-radius:8px;touch-action:none;display:block}
+#toast{position:fixed;left:12px;right:12px;bottom:calc(14px + env(safe-area-inset-bottom,0px));padding:13px;border-radius:10px;font-weight:700;text-align:center;color:#fff;display:none;z-index:50}
+#imp{display:none}
+@media print{*{-webkit-print-color-adjust:exact;print-color-adjust:exact}body>*:not(#imp){display:none!important}body{background:#fff;padding:0}
+#imp{display:block;color:#000;padding:8mm;font:12px Arial,sans-serif}#imp h1{font-size:18px;color:#0f766e;margin-bottom:4px}#imp h3{color:#0f766e;margin:12px 0 4px;font-size:13px}
+#imp table{width:100%;border-collapse:collapse;min-width:0}#imp td,#imp th{border:1px solid #333;padding:4px;color:#000}#imp th{background:#ccfbf1}
+#imp .ok{color:#047857}#imp .no{color:#b91c1c}#imp .pl{max-width:100%;max-height:420px;border:1px solid #333}#imp .fi{height:60px}#imp p{color:#000;font-size:12px}}
+</style>
+</head>
+<body>
+<button id="ins" onclick="instalar()">📲 Instalar como aplicación</button>
+<header>📐 Topografía y Oficina Técnica</header>
+<div class="tabs">
+<button class="tab on" data-p="nivel">Nivel</button>
+<button class="tab" data-p="cotas">Cotas</button>
+<button class="tab" data-p="planos">Planos</button>
+<button class="tab" data-p="rev">Revisiones</button>
+<button class="tab" data-p="inf">Informe</button>
+</div>
+
+<div id="nivel" class="pg on"><div class="card">
+<h2>Nivel y plomada</h2>
+<div class="al a">Referencial: el sensor del celular tiene un error de ±0,5° a 1° (8 a 17 mm por metro). Sirve para revisiones rápidas; no reemplaza al nivel óptico ni a la estación total cuando la tolerancia es estricta.</div>
+<div class="row" style="margin-top:8px"><button class="btn sm s on" id="m-piso" onclick="setModo('piso')">Piso (celular acostado)</button><button class="btn sm s" id="m-muro" onclick="setModo('muro')">Muro (celular parado)</button></div>
+<div class="nv"><div class="nc"></div><div id="bb"></div></div>
+<div class="big" id="n-txt">Toca Iniciar sensor</div>
+<div class="row"><div><label>Inclinación X</label><div class="al" id="n-x">—</div></div><div><label>Inclinación Y</label><div class="al" id="n-y">—</div></div></div>
+<label>Tolerancia (mm por metro)</label><input id="n-tol" type="number" inputmode="decimal" value="5" step="0.5">
+<button class="btn" onclick="iniciarNivel()">Iniciar sensor</button>
+<button class="btn s" onclick="cero()">Poner en cero (calibrar)</button>
+<small>Calibrar: apoya el celular en una superficie que sepas plana o plomada, y toca "Poner en cero". Los signos (+ / −) pueden variar según el modelo de celular.</small>
+<label>Lugar de la medición</label><input id="n-lug" placeholder="Ej: Eje C, muro piso 2">
+<button class="btn g" onclick="regNivel()">Registrar medición</button>
+<h3>Mediciones registradas</h3><div class="tw" id="n-lis"></div>
+<button class="btn r sm" onclick="delNivel()">Borrar mediciones</button>
+</div></div>
+
+<div id="cotas" class="pg"><div class="card">
+<h2>Libro de niveles (nivelación encadenada)</h2>
+<p>Altura instrumental (AI) = cota del punto conocido + lectura atrás. Cota de un punto = AI − lectura adelante. Medidas en metros.</p>
+<div id="c-ini">
+<label>Punto de partida (RP / BM)</label><input id="c-rpn" placeholder="Ej: RP-1">
+<div class="row"><div><label>Cota conocida (m)</label><input id="c-rpc" type="number" inputmode="decimal" step="0.001"></div><div><label>Lectura atrás (m)</label><input id="c-rpl" type="number" inputmode="decimal" step="0.001"></div></div>
+<button class="btn g" onclick="iniciarLibro()">Iniciar libro</button></div>
+<div id="c-ope" style="display:none">
+<div class="al v" id="c-ai"></div>
+<label>Tolerancia (± mm)</label><input id="c-tol" type="number" inputmode="decimal" value="5" oninput="C.tol=+this.value||0;sv('cotas',C);cRender()">
+<label>Nombre del punto</label><input id="c-n" placeholder="Ej: Eje 3 / Nivel 2">
+<label>Tipo</label><select id="c-t" onchange="$('c-cpw').style.display=this.value==='CP'?'block':'none'"><option>Intermedio</option><option value="CP">Cambio de estación (CP)</option><option value="Cierre">Cierre sobre cota conocida</option></select>
+<label>Lectura adelante (m)</label><input id="c-l" type="number" inputmode="decimal" step="0.001">
+<div id="c-cpw" style="display:none"><label>Lectura atrás sobre el CP (m)</label><input id="c-la" type="number" inputmode="decimal" step="0.001"></div>
+<label>Cota de proyecto o conocida (m, opcional; obligatoria en el cierre)</label><input id="c-p" type="number" inputmode="decimal" step="0.001">
+<button class="btn g" onclick="addPunto()">Calcular y agregar</button>
+<div class="row"><button class="btn s" onclick="undoPunto()">Deshacer último</button><button class="btn r" onclick="nuevoLibro()">Nuevo libro</button></div>
+</div>
+<h3>Resultados</h3><div class="tw" id="c-tab"></div>
+</div></div>
+
+<div id="planos" class="pg"><div class="card">
+<h2>Visor de planos</h2>
+<p>Carga una foto o captura del plano. Pellizca para acercar, arrastra para mover y marca ejes, cotas, alturas y plomos.</p>
+<input type="file" id="p-f" accept="image/*" style="display:none">
+<button class="btn" onclick="$('p-f').click()">📂 Cargar imagen del plano</button>
+<label>Nombre del plano y revisión</label><input id="p-nom" placeholder="Ej: ES-03 Planta piso 2 Rev E" oninput="PL.nom=this.value;sv('plano',PL)">
+<div class="row" style="margin-top:8px"><button class="btn sm s on" id="pm-mover" onclick="pModo('mover')">✋ Mover</button><button class="btn sm s" id="pm-marcar" onclick="pModo('marcar')">📍 Marcar</button><button class="btn sm s" onclick="pReset()">↺ Vista</button></div>
+<div class="row"><div><label>Tipo de marca</label><select id="p-tipo"><option>Eje</option><option>Cota</option><option>Altura</option><option>Plomo</option></select></div><div><label>Texto o valor</label><input id="p-txt" placeholder="Eje C / +3.250"></div></div>
+<canvas id="pv"></canvas>
+<small>En modo Marcar, toca el plano donde va la marca.</small>
+<h3>Marcas</h3><div id="p-lis"></div>
+<button class="btn r sm" onclick="pQuitar()">Quitar plano</button>
+</div></div>
+
+<div id="rev" class="pg"><div class="card">
+<h2>Control de revisiones de planos</h2>
+<p>Registra qué revisión está vigente en oficina y cuál se está usando en terreno. Si no coinciden, la app avisa.</p>
+<label>Plano</label><input id="r-n" placeholder="Ej: ES-03 Planta piso 2">
+<div class="row"><div><label>Vigente (oficina)</label><select id="r-v"></select></div><div><label>En terreno</label><select id="r-t"></select></div></div>
+<label>Observaciones</label><textarea id="r-o" rows="2"></textarea>
+<label>Estado</label><select id="r-e"><option>Aprobado</option><option>Con observaciones</option><option>Rechazado</option></select>
+<button class="btn g" onclick="addRev()">Registrar</button>
+<div id="r-res"></div><div class="tw" id="r-tab"></div>
+</div></div>
+
+<div id="inf" class="pg"><div class="card">
+<h2>Informe y firmas</h2>
+<label>Obra</label><input id="i-obra" placeholder="Nombre de la obra">
+<label>Ubicación o frente</label><input id="i-ub">
+<div class="row"><div><label>Topógrafo</label><input id="i-top"></div><div><label>RUT topógrafo</label><input id="i-trut"></div></div>
+<div class="row"><div><label>ITO / revisor</label><input id="i-ito"></div><div><label>RUT ITO</label><input id="i-irut"></div></div>
+<h3>Firma del topógrafo</h3><canvas class="sg" id="s-top" width="600" height="260"></canvas>
+<div class="row"><button class="btn s" onclick="sgT.clear()">Borrar</button><button class="btn g" onclick="autorizar('top')">Autorizar</button></div><div id="s-top-e"></div>
+<h3>Firma del ITO</h3><canvas class="sg" id="s-ito" width="600" height="260"></canvas>
+<div class="row"><button class="btn s" onclick="sgI.clear()">Borrar</button><button class="btn g" onclick="autorizar('ito')">Autorizar</button></div><div id="s-ito-e"></div>
+<button class="btn y" onclick="pdf()">📄 Generar PDF del informe</button>
+<small>En el diálogo de impresión elige «Guardar como PDF». Los datos quedan solo en este teléfono.</small>
+<button class="btn r sm" style="margin-top:12px" onclick="borrarTodo()">Borrar todos los datos</button>
+</div></div>
+
+<div id="toast"></div><div id="imp"></div>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function ld(k,d){try{return JSON.parse(localStorage.getItem('tp_'+k))||d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem('tp_'+k,JSON.stringify(v));return true}catch(e){aviso('No hay espacio en el teléfono para guardar','#dc2626');return false}}
+let tt;function aviso(m,c){const t=$('toast');t.textContent=m;t.style.background=c||'#059669';t.style.display='block';clearTimeout(tt);tt=setTimeout(()=>t.style.display='none',2800)}
+const hoy=()=>new Date().toLocaleDateString('es-CL');
+const mm=v=>Math.round(parseFloat(v)*1000), m3=v=>(v/1000).toFixed(3), sg=v=>(v>0?'+':'')+v;
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab,.pg').forEach(e=>e.classList.remove('on'));b.classList.add('on');$(b.dataset.p).classList.add('on');if(b.dataset.p==='planos')setTimeout(pDraw,50)});
+
+/* NIVEL */
+let modo='piso',F={x:0,y:0},OFF=ld('off',{piso:{x:0,y:0},muro:{x:0,y:0}}),NV=ld('niv',[]),got=false,on=false,cur={x:0,y:0};
+function setModo(m){modo=m;$('m-piso').classList.toggle('on',m==='piso');$('m-muro').classList.toggle('on',m==='muro');pinta()}
+async function iniciarNivel(){
+ const D=window.DeviceMotionEvent;if(!D){aviso('Este navegador no tiene sensor de movimiento','#dc2626');return}
+ if(typeof D.requestPermission==='function'){try{if(await D.requestPermission()!=='granted'){aviso('Permiso denegado','#dc2626');return}}catch(e){aviso('No se pudo pedir permiso','#dc2626');return}}
+ if(!on){addEventListener('devicemotion',mov);on=true}
+ $('n-txt').textContent='Midiendo...';setTimeout(()=>{if(!got)aviso('El celular no entrega datos del sensor','#dc2626')},2000)}
+function mov(e){const a=e.accelerationIncludingGravity;if(!a||a.x==null||a.y==null||a.z==null)return;got=true;const d=180/Math.PI;
+ const x=modo==='piso'?Math.atan2(a.x,a.z)*d:Math.atan2(a.x,a.y)*d,y=modo==='piso'?Math.atan2(a.y,a.z)*d:Math.atan2(a.z,a.y)*d;
+ F.x+=(x-F.x)*.2;F.y+=(y-F.y)*.2;pinta()}
+function lect(){const o=OFF[modo];const dx=F.x-o.x,dy=F.y-o.y;return{dx,dy,mx:Math.tan(dx*Math.PI/180)*1000,my:Math.tan(dy*Math.PI/180)*1000}}
+function pinta(){if(!got)return;const l=lect(),tol=+$('n-tol').value||0,ok=Math.abs(l.mx)<=tol&&Math.abs(l.my)<=tol;
+ $('n-x').textContent=l.dx.toFixed(2)+'° · '+l.mx.toFixed(1)+' mm/m';$('n-y').textContent=l.dy.toFixed(2)+'° · '+l.my.toFixed(1)+' mm/m';
+ const px=Math.max(-80,Math.min(80,l.dx*10)),py=Math.max(-80,Math.min(80,l.dy*10));
+ $('bb').style.transform=`translate(calc(-50% + ${px}px),calc(-50% + ${-py}px))`;$('bb').style.background=ok?'var(--gr)':'var(--rd)';
+ $('n-txt').textContent=ok?(modo==='piso'?'NIVELADO':'APLOMADO'):'FUERA DE TOLERANCIA';$('n-txt').style.color=ok?'var(--gr)':'var(--rd)'}
+function cero(){if(!got){aviso('Primero inicia el sensor','#dc2626');return}OFF[modo]={x:F.x,y:F.y};sv('off',OFF);aviso('Cero fijado en modo '+modo)}
+function regNivel(){if(!got){aviso('Primero inicia el sensor','#dc2626');return}const l=lect(),tol=+$('n-tol').value||0;
+ NV.push({l:$('n-lug').value.trim()||'—',m:modo,x:+l.mx.toFixed(1),y:+l.my.toFixed(1),t:tol,ok:Math.abs(l.mx)<=tol&&Math.abs(l.my)<=tol,h:new Date().toLocaleString('es-CL')});sv('niv',NV);nRender();aviso('Medición registrada')}
+function nRender(){$('n-lis').innerHTML=NV.length?'<table><tr><th>Lugar</th><th>Modo</th><th>X mm/m</th><th>Y mm/m</th><th>Resultado</th></tr>'+NV.map(n=>`<tr><td>${esc(n.l)}</td><td>${n.m}</td><td>${n.x}</td><td>${n.y}</td><td class="${n.ok?'ok':'no'}">${n.ok?'OK':'FUERA'}</td></tr>`).join('')+'</table>':'<p>Sin mediciones.</p>'}
+function delNivel(){if(NV.length&&confirm('¿Borrar las mediciones?')){NV=[];sv('niv',NV);nRender()}}
+
+/* COTAS */
+let C=ld('cotas',{ai:null,tol:5,p:[]});
+function iniciarLibro(){const n=$('c-rpn').value.trim(),c=$('c-rpc').value,l=$('c-rpl').value;
+ if(!n||c===''||l===''||isNaN(c)||isNaN(l)){aviso('Completa punto, cota y lectura atrás','#dc2626');return}
+ const ai=mm(c)+mm(l);C={ai,tol:C.tol||5,p:[{n,t:'RP',l:mm(l),cota:mm(c),pr:null,d:null,ai}]};sv('cotas',C);cRender()}
+function addPunto(){const n=$('c-n').value.trim(),t=$('c-t').value,l=$('c-l').value,p=$('c-p').value,la=$('c-la').value;
+ if(!n||l===''||isNaN(l)){aviso('Falta el nombre o la lectura adelante','#dc2626');return}
+ if(+l<0){aviso('La lectura no puede ser negativa','#dc2626');return}
+ if(+l>6&&!confirm('La lectura es mayor a 6 m. ¿Es correcta?'))return;
+ if(t==='CP'&&(la===''||isNaN(la))){aviso('Falta la lectura atrás sobre el CP','#dc2626');return}
+ if(t==='Cierre'&&(p===''||isNaN(p))){aviso('El cierre necesita la cota conocida','#dc2626');return}
+ const cota=C.ai-mm(l),pr=p===''||isNaN(p)?null:mm(p),d=pr==null?null:cota-pr;
+ const ai=t==='CP'?cota+mm(la):C.ai;C.ai=ai;C.p.push({n,t,l:mm(l),cota,pr,d,ai});sv('cotas',C);
+ ['c-n','c-l','c-p','c-la'].forEach(i=>$(i).value='');cRender();aviso('Cota calculada: '+m3(cota)+' m')}
+function undoPunto(){if(C.p.length>1){C.p.pop();C.ai=C.p[C.p.length-1].ai;sv('cotas',C);cRender()}else aviso('No hay puntos para deshacer','#dc2626')}
+function nuevoLibro(){if(confirm('¿Empezar un libro nuevo? Se borra el actual.')){C={ai:null,tol:C.tol||5,p:[]};sv('cotas',C);cRender()}}
+function cEst(p){return p.d==null?'—':(Math.abs(p.d)<=C.tol?'<span class="ok">OK</span>':'<span class="no">FUERA</span>')}
+function cTabla(){return '<table><tr><th>Punto</th><th>Tipo</th><th>Lect.</th><th>Cota (m)</th><th>Proyecto</th><th>Dif. mm</th><th>Estado</th></tr>'+C.p.map(p=>`<tr><td>${esc(p.n)}</td><td>${p.t}</td><td>${m3(p.l)}</td><td><b>${m3(p.cota)}</b></td><td>${p.pr==null?'—':m3(p.pr)}</td><td>${p.d==null?'—':sg(p.d)}</td><td>${cEst(p)}</td></tr>`).join('')+'</table>'}
+function cRender(){const on=C.p.length>0;$('c-ini').style.display=on?'none':'block';$('c-ope').style.display=on?'block':'none';$('c-tol').value=C.tol;
+ if(on)$('c-ai').textContent='Altura instrumental vigente: '+m3(C.ai)+' m';
+ $('c-tab').innerHTML=on?cTabla():'<p>Sin datos. Inicia el libro con tu RP.</p>'}
+
+/* PLANOS */
+let PL=ld('plano',{img:null,nom:'',mk:[]}),IM=null,V={s:1,x:0,y:0},pmod='mover';
+const pv=$('pv'),px=pv.getContext('2d'),COL={Eje:'#38bdf8',Cota:'#f59e0b',Altura:'#a78bfa',Plomo:'#f43f5e'};
+function pModo(m){pmod=m;$('pm-mover').classList.toggle('on',m==='mover');$('pm-marcar').classList.toggle('on',m==='marcar')}
+function pLoad(src){IM=new Image();IM.onload=()=>{pReset()};IM.src=src}
+function pReset(){if(!IM)return pDraw();const w=pv.clientWidth||300,h=pv.clientHeight||380,s=Math.min(w/IM.width,h/IM.height);V={s,x:(w-IM.width*s)/2,y:(h-IM.height*s)/2};pDraw()}
+function pDraw(){const d=window.devicePixelRatio||1,w=pv.clientWidth,h=pv.clientHeight;if(!w)return;pv.width=w*d;pv.height=h*d;px.setTransform(d,0,0,d,0,0);px.fillStyle='#000';px.fillRect(0,0,w,h);
+ if(!IM){px.fillStyle='#9fb0c8';px.font='14px sans-serif';px.textAlign='center';px.fillText('Carga la imagen de un plano',w/2,h/2);return}
+ px.drawImage(IM,V.x,V.y,IM.width*V.s,IM.height*V.s);PL.mk.forEach(m=>mark(px,V.x+m.x*IM.width*V.s,V.y+m.y*IM.height*V.s,m,1))}
+function mark(c,x,y,m,k){c.fillStyle=COL[m.t];c.beginPath();c.arc(x,y,7*k,0,7);c.fill();c.lineWidth=2*k;c.strokeStyle='#fff';c.stroke();
+ c.font='bold '+13*k+'px sans-serif';c.textAlign='left';const t=m.t+': '+m.v;c.lineWidth=3*k;c.strokeStyle='#000';c.strokeText(t,x+10*k,y+4*k);c.fillStyle='#fff';c.fillText(t,x+10*k,y+4*k)}
+const P=new Map();let moved=0,pd=0;
+pv.addEventListener('pointerdown',e=>{pv.setPointerCapture(e.pointerId);P.set(e.pointerId,{x:e.offsetX,y:e.offsetY});moved=0;pd=0;if(P.size===2)pd=dist()});
+pv.addEventListener('pointermove',e=>{if(!P.has(e.pointerId)||!IM)return;const o=P.get(e.pointerId),nx=e.offsetX,ny=e.offsetY;
+ if(P.size===1&&pmod==='mover'){V.x+=nx-o.x;V.y+=ny-o.y}moved+=Math.abs(nx-o.x)+Math.abs(ny-o.y);P.set(e.pointerId,{x:nx,y:ny});
+ if(P.size===2){const nd=dist(),f=nd/(pd||nd),pts=[...P.values()],cx=(pts[0].x+pts[1].x)/2,cy=(pts[0].y+pts[1].y)/2;V.x=cx-(cx-V.x)*f;V.y=cy-(cy-V.y)*f;V.s*=f;pd=nd}pDraw()});
+function dist(){const p=[...P.values()];return Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)}
+pv.addEventListener('pointerup',e=>{const single=P.size===1;P.delete(e.pointerId);
+ if(single&&pmod==='marcar'&&moved<8&&IM){const x=(e.offsetX-V.x)/(IM.width*V.s),y=(e.offsetY-V.y)/(IM.height*V.s);
+  if(x<0||y<0||x>1||y>1)return;const v=$('p-txt').value.trim();if(!v){aviso('Escribe el texto o valor de la marca','#dc2626');return}
+  PL.mk.push({t:$('p-tipo').value,v,x,y});sv('plano',PL);pDraw();pLista()}});
+pv.addEventListener('pointercancel',e=>P.delete(e.pointerId));
+function pLista(){$('p-lis').innerHTML=PL.mk.length?PL.mk.map((m,i)=>`<div class="al" style="border-color:${COL[m.t]}">${m.t}: <b>${esc(m.v)}</b> <button class="btn r sm" onclick="pDel(${i})">Quitar</button></div>`).join(''):'<p>Sin marcas.</p>'}
+function pDel(i){PL.mk.splice(i,1);sv('plano',PL);pDraw();pLista()}
+function pQuitar(){if(PL.img&&confirm('¿Quitar el plano y sus marcas?')){PL={img:null,nom:'',mk:[]};IM=null;sv('plano',PL);$('p-nom').value='';pDraw();pLista()}}
+$('p-f').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{
+ const s=Math.min(1,1600/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+ const u=c.toDataURL('image/jpeg',.7);PL={img:u,nom:$('p-nom').value,mk:[]};if(sv('plano',PL)){pLoad(u);pLista();aviso('Plano cargado')}};im.onerror=()=>aviso('No se pudo leer la imagen','#dc2626');im.src=r.result};r.readAsDataURL(f);e.target.value=''});
+function planoPdf(){if(!IM)return null;const c=document.createElement('canvas');c.width=IM.width;c.height=IM.height;const x=c.getContext('2d');x.drawImage(IM,0,0);const k=Math.max(1,IM.width/900);PL.mk.forEach(m=>mark(x,m.x*IM.width,m.y*IM.height,m,k));return c.toDataURL('image/jpeg',.8)}
+
+/* REVISIONES */
+const L='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');let R=ld('rev',[]);
+['r-v','r-t'].forEach(i=>$(i).innerHTML=L.map(x=>`<option>${x}</option>`).join(''));
+function addRev(){const n=$('r-n').value.trim();if(!n){aviso('Escribe el nombre del plano','#dc2626');return}
+ const k=n.toUpperCase(),o={n,v:$('r-v').value,t:$('r-t').value,o:$('r-o').value.trim(),e:$('r-e').value,f:hoy()};
+ const i=R.findIndex(x=>x.n.toUpperCase()===k);if(i>=0)R[i]=o;else R.push(o);sv('rev',R);$('r-n').value='';$('r-o').value='';rRender();aviso('Revisión registrada')}
+const desact=r=>r.v!==r.t;
+function rRender(){const d=R.filter(desact);$('r-res').innerHTML=R.length?(d.length?`<div class="al r"><b>${d.length} plano(s) DESACTUALIZADO(S) en terreno</b></div>`:'<div class="al v">Todos los planos coinciden con la revisión vigente.</div>'):'';
+ const s=R.slice().sort((a,b)=>desact(b)-desact(a));
+ $('r-tab').innerHTML=R.length?'<table><tr><th>Plano</th><th>Vigente</th><th>Terreno</th><th>Control</th><th>Estado</th><th></th></tr>'+s.map(r=>`<tr><td>${esc(r.n)}<br><small>${esc(r.o)}</small></td><td>Rev ${r.v}</td><td>Rev ${r.t}</td><td class="${desact(r)?'no':'ok'}">${desact(r)?'USA Rev '+r.t+', VIGENTE Rev '+r.v:'OK'}</td><td>${r.e}</td><td><button class="btn r sm" onclick="delRev('${esc(r.n).replace(/'/g,'')}')">X</button></td></tr>`).join('')+'</table>':'<p>Sin planos registrados.</p>'}
+function delRev(n){R=R.filter(r=>esc(r.n).replace(/'/g,'')!==n);sv('rev',R);rRender()}
+
+/* FIRMAS E INFORME */
+function firma(id){const c=$(id),x=c.getContext('2d');let d=false,h=false;x.lineWidth=4;x.lineCap='round';x.lineJoin='round';
+ const p=e=>{const r=c.getBoundingClientRect();return[(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height]};
+ c.addEventListener('pointerdown',e=>{d=true;h=true;c.setPointerCapture(e.pointerId);const[a,b]=p(e);x.beginPath();x.moveTo(a,b)});
+ c.addEventListener('pointermove',e=>{if(!d)return;const[a,b]=p(e);x.lineTo(a,b);x.stroke()});
+ ['pointerup','pointercancel'].forEach(v=>c.addEventListener(v,()=>d=false));
+ return{has:()=>h,img:()=>c.toDataURL('image/png'),clear:()=>{x.clearRect(0,0,c.width,c.height);h=false}}}
+const sgT=firma('s-top'),sgI=firma('s-ito');let FI=ld('firmas',{}),H=ld('hdr',{});
+function autorizar(w){const s=w==='top'?sgT:sgI,nom=$(w==='top'?'i-top':'i-ito').value.trim(),rut=$(w==='top'?'i-trut':'i-irut').value.trim();
+ if(!nom){aviso('Escribe el nombre antes de firmar','#dc2626');return}if(!s.has()){aviso('Falta la firma en el recuadro','#dc2626');return}
+ FI[w]={img:s.img(),nom,rut,h:new Date().toLocaleString('es-CL')};if(sv('firmas',FI)){s.clear();fEst();aviso('Firma autorizada')}}
+function fEst(){['top','ito'].forEach(w=>{$('s-'+w+'-e').innerHTML=FI[w]?`<div class="al v">Firmado por ${esc(FI[w].nom)} · ${FI[w].h}</div>`:'<div class="al a">Pendiente de firma</div>'})}
+['i-obra','i-ub','i-top','i-trut','i-ito','i-irut'].forEach(i=>{if(H[i])$(i).value=H[i];$(i).addEventListener('input',()=>{H[i]=$(i).value;sv('hdr',H)})});
+function pdf(){if(!$('i-obra').value.trim()){aviso('Escribe el nombre de la obra','#dc2626');return}
+ const fu=C.p.filter(p=>p.d!=null&&Math.abs(p.d)>C.tol).length,nf=NV.filter(n=>!n.ok).length,de=R.filter(desact).length,pi=planoPdf();
+ const fm=w=>FI[w]?`<p><img class="fi" src="${FI[w].img}"><br><b>${esc(FI[w].nom)}</b> ${esc(FI[w].rut)}<br>Firmado: ${FI[w].h}</p>`:'<p><b>FIRMA PENDIENTE</b></p>';
+ let h=`<h1>Informe de topografía y oficina técnica</h1><p><b>Obra:</b> ${esc($('i-obra').value)} · <b>Ubicación:</b> ${esc($('i-ub').value)||'—'} · <b>Fecha:</b> ${hoy()}</p>
+ <p><b>Resumen:</b> puntos fuera de tolerancia: <span class="${fu?'no':'ok'}">${fu}</span> · mediciones de nivel/plomo fuera: <span class="${nf?'no':'ok'}">${nf}</span> · planos desactualizados en terreno: <span class="${de?'no':'ok'}">${de}</span></p>`;
+ if(C.p.length)h+=`<h3>Libro de niveles (tolerancia ±${C.tol} mm)</h3>${cTabla()}`;
+ if(NV.length)h+=`<h3>Nivel y plomos (referencial, sensor del celular)</h3><table><tr><th>Lugar</th><th>Modo</th><th>X mm/m</th><th>Y mm/m</th><th>Resultado</th></tr>${NV.map(n=>`<tr><td>${esc(n.l)}</td><td>${n.m}</td><td>${n.x}</td><td>${n.y}</td><td class="${n.ok?'ok':'no'}">${n.ok?'OK':'FUERA'}</td></tr>`).join('')}</table>`;
+ if(R.length)h+=`<h3>Control de revisiones de planos</h3><table><tr><th>Plano</th><th>Vigente</th><th>Terreno</th><th>Control</th><th>Estado</th><th>Obs.</th></tr>${R.map(r=>`<tr><td>${esc(r.n)}</td><td>Rev ${r.v}</td><td>Rev ${r.t}</td><td class="${desact(r)?'no':'ok'}">${desact(r)?'DESACTUALIZADO':'OK'}</td><td>${r.e}</td><td>${esc(r.o)}</td></tr>`).join('')}</table>`;
+ if(pi)h+=`<h3>Plano: ${esc(PL.nom)||'—'}</h3><img class="pl" src="${pi}">`;
+ h+=`<h3>Autorización</h3><table><tr><td><b>Topógrafo</b>${fm('top')}</td><td><b>ITO / revisor</b>${fm('ito')}</td></tr></table><p>Mediciones del celular son referenciales; verificar con equipo topográfico cuando la tolerancia lo exija.</p>`;
+ $('imp').innerHTML=h;setTimeout(()=>window.print(),600)}
+function borrarTodo(){if(confirm('¿Borrar TODOS los datos de esta app en este teléfono?')){Object.keys(localStorage).filter(k=>k.startsWith('tp_')).forEach(k=>localStorage.removeItem(k));location.reload()}}
+
+/* INICIO */
+nRender();cRender();rRender();fEst();pLista();$('p-nom').value=PL.nom||'';if(PL.img)pLoad(PL.img);else pDraw();addEventListener('resize',()=>pDraw());
+let ip=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();ip=e;$('ins').style.display='block'});
+function instalar(){if(ip){ip.prompt();ip.userChoice.then(()=>{ip=null;$('ins').style.display='none'})}}
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('topografia-sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
